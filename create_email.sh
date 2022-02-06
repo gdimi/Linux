@@ -16,10 +16,10 @@ TXT_RESET=$(tput sgr0)
 error=0
 virtual_home="/var/my_domain_system_usr/mail/virtual"
 nobackup=0
-mysql_user = "muser"
-mysql_pass = "mpass"
-mysql_db = "maildb"
-domain = "mydomain.tld"
+mysql_user="muser"
+mysql_pass="mpass"
+mysql_db="maildb"
+domain="mydomain.tld"
 
 # the only function in this script so far :P
 function die()
@@ -89,10 +89,10 @@ VALUES (
 #send test mail
  echo "sending user/password email ..."
  if [ $nobackup -eq 1 ]; then
-	echo "test mail from $domain\n username: $1 \n password: $PASSWD" | mail -s “testing email” $1@$domain
+	echo "test mail from $domain\n username: $1 \n password: $PASSWD" | mail -s "testing email" $1@$domain
  else
  	echo "there is no backup mail to sent password so echoing from cli: $PASSWD"
- 	echo "test mail from $domain\n username: $1 \n password: $PASSWD" | mail -s “testing email” $1@$domain -c $2
+ 	echo "test mail from $domain\n username: $1 \n password: $PASSWD" | mail -s "testing email" $1@$domain -c $2
  fi
  if [ $? -ne 0 ]; then
  	echo "${TXT_RED}send mail failed!${TXT_RESET}Please send one manually"
