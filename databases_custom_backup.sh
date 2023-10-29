@@ -37,8 +37,6 @@ else
     esac
 fi
 
-exit 0
-
 ## exclude system dbs
 ExcludeDbs="Database|information_schema|performance_schema|mysql"
 
