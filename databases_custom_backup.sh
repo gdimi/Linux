@@ -41,11 +41,13 @@ fi
 ExcludeDbs="Database|information_schema|performance_schema|mysql"
 
 # get a list of databases
-databases=`mysql --defaults-extra-file=/root/.my.cnf --batch --skip-column-names  -Bse "SHOW DATABASES;" | egrep -v $ExcludeDbs`
+databases=`mysql --defaults-extra-file="$MYCNF" --batch --skip-column-names  -Bse "SHOW DATABASES;" | egrep -v $ExcludeDbs`
 
+echo "Found $(wc -w <<< $databases)"
 
 ## check if output dir exists and if not make it
 if [ ! -d "$DEST" ];then
+    echo "Creating $DEST..."
     sudo mkdir -p "$DEST"
 fi
 
@@ -53,7 +55,7 @@ fi
 ## loop through list and backup, then nice gzip
 for db in $databases; do
     echo -n "Dumping database: ${DEST}${db}-${SUFFIX}.sql ..."
-    nice -n 5 mysqldump --defaults-extra-file=/root/.my.cnf  --lock-tables --databases $db > ${DEST}${db}-${SUFFIX}.sql && sync && nice gzip ${DEST}${db}-${SUFFIX}.sql && rm -f ${DEST}${db}-${SUFFIX}.sql && echo "OK"
+    nice -n 5 mysqldump --defaults-extra-file=$MYCNF  --lock-tables --databases $db > ${DEST}${db}-${SUFFIX}.sql && sync && nice gzip ${DEST}${db}-${SUFFIX}.sql && rm -f ${DEST}${db}-${SUFFIX}.sql && echo "OK"
 done
 
 ## thats it!
