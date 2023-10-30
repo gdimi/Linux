@@ -52,8 +52,8 @@ fi
 
 ## loop through list and backup, then nice gzip
 for db in $databases; do
-    echo "Dumping database: ${DEST}${db}-${SUFFIX}.sql"
-    nice -n 5 mysqldump --defaults-extra-file=/root/.my.cnf  --lock-tables --databases $db > ${DEST}${db}-${SUFFIX}.sql && sync && nice gzip ${DEST}${db}-${SUFFIX}.sql && rm -y ${DEST}${db}-${SUFFIX}.sql
+    echo -n "Dumping database: ${DEST}${db}-${SUFFIX}.sql ..."
+    nice -n 5 mysqldump --defaults-extra-file=/root/.my.cnf  --lock-tables --databases $db > ${DEST}${db}-${SUFFIX}.sql && sync && nice gzip ${DEST}${db}-${SUFFIX}.sql && rm -f ${DEST}${db}-${SUFFIX}.sql && echo "OK"
 done
 
 ## thats it!
